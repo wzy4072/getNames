@@ -11,10 +11,11 @@
 </head>
 <body>
 <div id='app'>
-  <div v-for="item in selectedWords" class="names btns">王{{item}}</div>
+  <div v-for="item in selectedWords" class="names btns" @click="iLike(item)">王{{item}}</div>
     <div class="btn">
       <button @click="agin = !agin">下一组</button>
     </div>
+    <div class="ilike"> {{notBed.join(',')}}</div>
 </div>
 
 <script> 
@@ -23,6 +24,7 @@
   data: {
     nameList: nameList,
     selectedWords:[],
+    notBed:[],
     agin:false,
   },
   watch:{    agin(val){     this.getWord();   }, },
@@ -37,9 +39,12 @@
       let first = parseInt(Math.random()*len);
       let second = parseInt(Math.random()*len);
     this.selectedWords.push(this.nameList[first]+this.nameList[second]);
-    }
-   
+    }   
    },
+   iLike(val){
+    this.notBed.push('王'+val);
+   },
+
   }
 
 })
@@ -54,6 +59,7 @@ window.onload= function () {
        setTimeout(function(){
         appDom.removeChild(copyTips);
        },1000);
+
             return trigger.innerText;
         }
     });

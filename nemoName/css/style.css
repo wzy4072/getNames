@@ -47,3 +47,11 @@ position: relative;
   top:100px;
   left:0px;
 }
+.ilike{
+    text-align: left;
+    font-size: 16px;
+    font-weight: 600;
+    background-color: pink;
+    padding: 10px 20px;
+    color: #666;
+}
