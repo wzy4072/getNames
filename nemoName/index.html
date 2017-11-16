@@ -7,6 +7,7 @@
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <script src="js/nameList.js"></script>
   <script src="js/vue.min.js"></script>
+  <script src="js/tool.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
 </head>
 <body>
@@ -15,6 +16,14 @@
     <div class="btn">
       <button @click="agin = !agin">下一组</button>
     </div>
+
+    <div>
+
+设置姓氏：<input type="text" v-model="familyWord">
+设置字个数：<input type="text" v-model="wordsNumSet"> 
+设置查询个数：<input type="text" v-model="searchCount"> 
+
+    </div>
     <div class="ilike"> {{notBed.join(',')}}</div>
 </div>
 
@@ -22,48 +31,79 @@
   var app = new Vue({
   el: '#app',
   data: {
-    nameList: nameList,
+    wordsNumSet:2,
+    familyWord:'王',
+    famyd:'2', 
+    searchCount:20,
+    design:[],  
     selectedWords:[],
     notBed:[],
-    agin:false,
+    agin:false,  
   },
-  watch:{    agin(val){     this.getWord();   }, },
-  created(){
-   this.getWord();
+  watch:{  
+    //下一组  
+    agin(val){ this.getWords();   }, 
+    //更改姓氏
+    familyWord(){ 
+      let _this = this;
+      getPinYin(this.familyWord,function(req){
+       _this.famyd = yd(req.result[0]);
+      _this.getDesign()
+     }) 
+    },
+    //更改字数
+    wordsNumSet(val){ if(val!= 1 && val !=2){alert('暂不支持'); this.wordsNumSet = 2;}else{ this.getDesign();}
+    },
   },
+  created(){   
+    this.getDesign();
+    this.getWords();
+     },
   methods:{
-   getWord(){
-    this.selectedWords = [];
-    for(let i=0;i<20;i++){
-      let len = this.nameList.length;    
-      let first = parseInt(Math.random()*len);
-      let second = parseInt(Math.random()*len);
-    this.selectedWords.push(this.nameList[first]+this.nameList[second]);
-    }   
-   },
-   iLike(val){
-    this.notBed.push('王'+val);
+   //收藏
+   iLike(val){ this.notBed.push(this.familyWord+val); },
+
+   //获取设计 参数：音调、字数
+    getDesign(){ 
+     this.design = designs(this.famyd,this.wordsNumSet);
+     this.getWords();
+    },
+
+    //获取字体 并校验是否符合设计
+    getWords(){  
+    let _this = this;  
+      _this.selectedWords = [];
+      for(let i=0;i<_this.searchCount;i++){
+        let len = nameList.length;    
+        let first = parseInt(Math.random()*len);
+        let second = parseInt(Math.random()*len);
+        let wordOne = nameList[first];
+        let wordTwo = nameList[second];
+        if(_this.wordsNumSet == 2){
+          getPinYin(wordOne+wordTwo,function(req){
+              if(arrInArray([yd(req.result[0]),yd(req.result[1])],_this.design)){
+                _this.selectedWords.push(wordOne+wordTwo);
+              }   
+          })                  
+        }else{
+
+           getPinYin(wordOne,function(req){
+            for(var i=0;i<_this.design.length;i++){
+              if(_this.design[i] ==yd(req.result[0]) ){
+                _this.selectedWords.push(wordOne);
+              }
+            }
+          })  
+        }
+      }
    },
 
   }
 
 })
-window.onload= function () {
-    new Clipboard('.btns', {
-        text: function(trigger) {
-       let appDom = document.getElementById('app');
-       let copyTips = document.createElement('div');
-       copyTips.className = 'tips';
-       copyTips.innerText = '复制成功啦，赶快去粘贴吧！'
-       appDom.appendChild(copyTips)
-       setTimeout(function(){
-        appDom.removeChild(copyTips);
-       },1000);
 
-            return trigger.innerText;
-        }
-    });
-};
+  
+
 </script>
 
 </body>

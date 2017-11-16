@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <title>Document</title>
+
+
+</head>
+<body>
+ yin yang shang qu 
+
+<script>
+
+
+function getYinDiao(str){
+ return  typeof str = 'string' ? str.substring(str.length-1,str.length) : false 
+}
+
+design:{
+ ow:[[1,2,3],[1,3,4],[1,2,4],[1,2,3]],
+ tw:[
+ [[2,1],[2,4],[3,3],[3,2],[4,1],[4,2]],
+ [[1,2],[1,3],[1,4],[3,1],[3,2],[4,1],[4,2],[4,3]],
+ [[1,1],[1,2],[1,3],[1,4],[2,1],[2,4],[4,1],[4,2],[4,4]],
+ [[1,1],[1,2],[1,3],[1,4],[2,1],[2,3],[2,4],[3,1],[3,2],[3,4]]
+ ],
+}
+
+getDesign(fna,num = 2,design){
+ if(! typeof fna == 'number'){return false;}
+ var nt == 2 ? 'tw' : 'ow';
+ let gt = parseInt(Math.random()*design[nt][fna-1].length);
+ return design[nt][fna-1][gt]
+}
+
+
+
+</script>
+</body>
+
+</html>

@@ -35,12 +35,10 @@ position: relative;
  margin:0 auto;
 }
 .tips{
-
   position: absolute;
-  width: 100%;
   display: block;
-  background-color:#fefefe;
   opacity: 0.8;
+  width: 100%;
   padding:10px 0;
   font-size: 14px;
   text-align: center;
