@@ -8,7 +8,7 @@ position: relative;
  padding-top:20px;
  text-align: center;
  margin:0 auto;
- background-image:url('../image/bg.jpg');
+ /*background-image:url('../image/bg.jpg');*/
  background-size: cover;
 }
 .names{
